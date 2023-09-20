@@ -1,6 +1,6 @@
 package ru.nsu.ramazanova;
 
-public class Task_1 extends Thread {
+public class Task_1 {
     public static void main(String[] args) {
         Runnable child = () -> {
             for (int i = 0; i < 10; i++) {
