@@ -8,16 +8,13 @@ import java.util.concurrent.Executors;
 
 public class Task_3 {
     public static void main(String[] args) {
-        List<List<String>> strings = new ArrayList<>();
-        strings.add(new ArrayList<>(List.of("1-1", "1-2", "1-3")));
-        strings.add(new ArrayList<>(List.of("2-1", "2-2", "2-3", "2-4")));
-        strings.add(new ArrayList<>(List.of("3-1", "3-2")));
-        strings.add(new ArrayList<>(List.of("4-1", "4-2", "4-3", "4-4", "4-5")));
+        List<String> input;
         Executor executor = (task) -> {
             (new Thread(task)).start();
         };
         for (int i = 0; i < 4; i++) {
-            executor.execute(new Printer(strings.get(i)));
+            input = List.of(i + "-1", i + "-2", i + "-3");
+            executor.execute(new Printer(input));
         }
     }
 
