@@ -27,6 +27,9 @@ public class Starter {
         }
         futures = executorService.invokeAll(tasks);
         executorService.shutdown();
+        while (true){
+            Thread.onSpinWait();
+        }
     }
 
     public void stop() {
