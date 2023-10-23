@@ -7,11 +7,13 @@ public class Main {
                 System.out.print("Текст");
             }
             System.out.println("");
-            System.out.println("Interrupted");
+
         };
         Thread thread = new Thread(child);
         thread.start();
         Thread.sleep(2000);
         thread.interrupt();
+
+        System.out.println("Interrupted");
     }
 }
