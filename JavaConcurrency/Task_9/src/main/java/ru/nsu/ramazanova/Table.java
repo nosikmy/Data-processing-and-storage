@@ -9,7 +9,7 @@ public class Table {
 
     private final List<Philosopher> philosophers;
     public Table(int philosophersCount) {
-        List<Lock> forks = new ArrayList<>(philosophersCount);
+        List<ReentrantLock> forks = new ArrayList<>(philosophersCount);
         for (int i = 0; i < philosophersCount; i++) {
             forks.add(new ReentrantLock());
         }
