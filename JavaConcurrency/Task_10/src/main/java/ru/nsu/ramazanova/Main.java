@@ -6,18 +6,19 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         Object lock = new Object();
-        AtomicBoolean run = new AtomicBoolean(false);
+        AtomicBoolean run = new AtomicBoolean(true);
         Runnable child = () -> {
             for (int i = 0; i < 10; i++) {
-                synchronized (lock){
-                    while (!run.get()){
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
+                synchronized (lock) {
+                    try {
+                        if(run.get()){
+                            lock.notify();
+                            run.set(false);
                         }
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
-                    run.set(false);
                     System.out.println("child " + i);
                     lock.notify();
                 }
@@ -27,11 +28,8 @@ public class Main {
         Thread thread = new Thread(child);
         thread.start();
         for (int i = 0; i < 10; i++) {
-            synchronized (lock){
-                while (run.get()){
-                    lock.wait();
-                }
-                run.set(true);
+            synchronized (lock) {
+                lock.wait();
                 System.out.println("parent " + i);
                 lock.notify();
             }
