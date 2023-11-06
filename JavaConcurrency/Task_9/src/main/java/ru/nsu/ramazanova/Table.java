@@ -8,14 +8,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Table {
 
     private final List<Philosopher> philosophers;
-    public Table(int philosophersCount) {
+    public Table(int philosophersCount, int spaghetti) {
         List<ReentrantLock> forks = new ArrayList<>(philosophersCount);
         for (int i = 0; i < philosophersCount; i++) {
             forks.add(new ReentrantLock());
         }
         this.philosophers = new ArrayList<>();
         for (int i = 0; i < philosophersCount; i++) {
-            philosophers.add(new Philosopher(i + 1, forks.get(i), forks.get((i+1)%philosophersCount)));
+            philosophers.add(new Philosopher(i + 1, forks.get(i), forks.get((i+1)%philosophersCount), spaghetti));
         }
     }
 
