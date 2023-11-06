@@ -1,7 +1,6 @@
 package ru.nsu.ramazanova;
 
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
