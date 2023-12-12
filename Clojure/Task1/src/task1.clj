@@ -15,5 +15,5 @@
     [""]
     (range n)))
 
-(def result (filter (fn [x] (= (count x) 3)) (generate-strings alphabet n)))
+(def result (filter (fn [x] (= (count x) n)) (generate-strings alphabet n)))
 (prn result)
