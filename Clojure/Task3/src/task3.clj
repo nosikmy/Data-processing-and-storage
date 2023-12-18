@@ -20,7 +20,7 @@
 
 (require '[clojure.test :refer :all])
 
-(deftest test-primes
+(deftest test-filter
   (testing
     (is (= (filter even? (range 10)) (p-filter even? (range 10))))
     (is (= (filter zero? [0, 9, 9, 9, 0, 4, 7, 0]) (p-filter zero? [0, 9, 9, 9, 0, 4, 7, 0])))
