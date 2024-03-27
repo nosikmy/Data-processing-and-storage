@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="91e1c5c4-1826-47bf-a88c-044929121be4" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Clojure Namespace" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2a2UxTPy49TPxYjx0fMd6AB3IVn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;cursive.last.file.extension.D\\:/\\u0423\\u0447\\u0435\\u0431\\u0430/\\u0425\\u0440\\u0430\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0438 \\u043e\\u0431\\u0440\\u0430\\u0431\\u043e\\u0442\\u043a\\u0430 \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u0438/Data processing and storage/Clojure/Task 4/src&quot;: &quot;clj&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Учеба/Хранение и обработка информации/Data processing and storage/Clojure/Task 4&quot;
+  }
+}</component>
+  <component name="ReplState" timestamp="1703773443547">{:repl-history {:ide [], :local [{:command &quot;- 2 1&quot;, :offset 5, :ns &quot;user&quot;}], :remote []}}</component>
+  <component name="RunManager" selected="Clojure Application.task4">
+    <configuration default="true" type="Babashka" factoryName="BabashkaLocalRepl" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="bbPath" value="" />
+      <setting name="parameters" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <setting name="workingDir" value="" />
+      <setting name="focusEditor" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false" nameIsGenerated="true">
+      <option name="configVersion" value="1" />
+      <option name="displayName" value="Unnamed" />
+      <module name="Task 4" />
+      <option name="options" />
+      <option name="profiles" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <option name="configVersion" value="1" />
+      <option name="options" />
+      <option name="profiles" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="SOCKET" />
+      <setting name="configType" value="SPECIFY" />
+      <setting name="replPortFileType" value="STANDARD" />
+      <setting name="customPortFile" value="" />
+      <setting name="fixLineNumbers" value="false" />
+      <setting name="focusEditor" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="task4" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <option name="configVersion" value="1" />
+      <module name="Task 4" />
+      <option name="options" />
+      <option name="profiles" />
+      <option name="scriptPath" value="$PROJECT_DIR$/src/task4.clj" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Clojure Application.task4" />
+      <item itemvalue="Clojure REPL.Unnamed" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Clojure Application.task4" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="91e1c5c4-1826-47bf-a88c-044929121be4" name="Changes" comment="" />
+      <created>1703516417372</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1703516417372</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
