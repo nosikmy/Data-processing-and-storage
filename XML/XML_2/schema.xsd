@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="person-ref">
+        <xs:sequence>
+            <xs:element name="id" type="xs:IDREF"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="parents-type">
+        <xs:sequence>
+            <xs:element name="mother" type="person-ref" minOccurs="0"/>
+            <xs:element name="father" type="person-ref" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="siblings-type">
+        <xs:sequence>
+            <xs:element name="sister" type="person-ref" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="brother" type="person-ref" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="children-type">
+        <xs:sequence>
+            <xs:element name="daughter" type="person-ref" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="son" type="person-ref" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="person-type">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="gender" type="xs:string"/>
+            <xs:element name="wife" type="person-ref" minOccurs="0"/>
+            <xs:element name="husband" type="person-ref" minOccurs="0"/>
+            <xs:element name="parents" type="parents-type" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="siblings" type="siblings-type" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="children" type="children-type" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="people">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element name="person" type="person-type" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
