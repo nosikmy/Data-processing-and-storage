@@ -5,7 +5,7 @@
 (def eating 1000)
 (def spaghetti-number 5)
 
-(def forks (take philosophers-number (repeatedly #(ref 0 :validator (fn [x] (<= x 1))))))
+(def forks (take philosophers-number (repeatedly #(ref 0 :validator (fn [x] (and (<= 0 x) (<= x 1)))))))
 (def transaction-restarts (atom 0))
 
 (defn philosopher [id left-fork right-fork]
