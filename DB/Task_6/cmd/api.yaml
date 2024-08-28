@@ -1,0 +1,715 @@
+openapi: 3.0.3
+info:
+  title: Airlines API specification
+  description: Specification of the API for providing air travel services
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080
+
+tags:
+  - name: cities
+    description: Information about cities
+  - name: airports
+    description: Information about airports
+  - name: flights
+    description: Information about flights
+  - name: bookings
+    description: Operations with bookings
+  - name: checkins
+    description: Operations with boarding passes
+
+paths:
+  /cities/{lang}:
+    parameters:
+      - name: lang
+        in: path
+        description: language of response
+        schema:
+          type: string
+          enum:
+            - en
+            - ru
+    get:
+      tags:
+        - cities
+      summary: Returns array of available cities
+      parameters:
+        - name: limit
+          in: query
+          description: Number of cities to return
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+            maximum: 100
+        - name: page
+          in: query
+          description: Page with cities to return
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: ok
+                  payload:
+                    type: array
+                    items:
+                      type: string
+                      example: Moscow
+                    example:
+                      {
+                        "status": 200,
+                        "message": "Ok",
+                        "payload": [
+                          "Yakutsk",
+                          "Mirnyj",
+                          "Khabarovsk",
+                          "Petropavlovsk",
+                          "Yuzhno-Sakhalinsk"
+                        ]
+                      }
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+
+  /airports/{lang}:
+    parameters:
+      - name: lang
+        in: path
+        description: language of response
+        schema:
+          type: string
+          enum:
+            - en
+            - ru
+    get:
+      tags:
+        - airports
+      summary: Returns array of available airports
+      parameters:
+        - name: limit
+          in: query
+          description: Number of airports to return
+          schema:
+            type: integer
+            default: 10
+        - name: page
+          in: query
+          description: Page with airports to return
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: ok
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        name:
+                          type: string
+                        city:
+                          type: string
+                        longitude:
+                          type: number
+                          format: float
+                        latitude:
+                          type: number
+                          format: float
+                        timezone:
+                          type: string
+                    example:
+                      [
+                        {
+                          "daysOfWeek": [
+                            3,
+                            7
+                          ],
+                          "timeOfDeparture": "15:00:00",
+                          "flightNo": "PG0082",
+                          "destination": "Кызыл"
+                        },
+                        {
+                          "daysOfWeek": [
+                            3,
+                            6
+                          ],
+                          "timeOfDeparture": "18:10:00",
+                          "flightNo": "PG0348",
+                          "destination": "Москва"
+                        },
+                      ]
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+  /airports/city/{cityName}/{lang}:
+    parameters:
+      - name: cityName
+        in: path
+        description: Name of the city to return airports for
+        schema:
+          type: string
+      - name: lang
+        in: path
+        description: language of response
+        schema:
+          type: string
+          enum:
+            - en
+            - ru
+    get:
+      tags:
+        - airports
+      summary: Returns array of airports within the specified city
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: ok
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        name:
+                          type: string
+                        city:
+                          type: string
+                        longitude:
+                          type: number
+                          format: float
+                        latitude:
+                          type: number
+                          format: float
+                        timezone:
+                          type: string
+              example:
+                {
+                  "status": 200,
+                  "message": "Ok",
+                  "payload": [
+                    {
+                      "airportCode": "KEJ",
+                      "airportName": "Kemerovo Airport",
+                      "city": "Kemorovo",
+                      "latitude": 55.27009963989258,
+                      "longitude": 86.1072006225586,
+                      "timezone": "Asia/Novokuznetsk"
+                    }
+                  ]
+                }
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+  /airports/schedule/{airportCode}/{lang}:
+    parameters:
+      - name: airportCode
+        in: path
+        description: Code of the airport to return schedules for
+        schema:
+          type: string
+      - name: lang
+        in: path
+        description: language of response
+        schema:
+          type: string
+          enum:
+            - en
+            - ru
+    get:
+      tags:
+        - airports
+      summary: Returns array of schedules for the specified airport
+      parameters:
+        - name: type
+          in: query
+          description: Type of airport schedule to return
+          required: true
+          schema:
+            type: string
+            enum:
+              - inbound
+              - outbound
+            example: inbound
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Ok
+                  payload:
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: "#/components/schemas/InboundSchedule"
+                        - $ref: "#/components/schemas/OutboundSchedule"
+              example:
+                {
+                  "status": 200,
+                  "message": "Ok",
+                  "payload": [
+                    {
+                      "daysOfWeek": [
+                        3,
+                        7
+                      ],
+                      "timeOfDeparture": "15:00:00",
+                      "flightNo": "PG0082",
+                      "destination": "Кызыл"
+                    },
+                    {
+                      "daysOfWeek": [
+                        3,
+                        6
+                      ],
+                      "timeOfDeparture": "18:10:00",
+                      "flightNo": "PG0348",
+                      "destination": "Москва"
+                    },
+                    {
+                      "daysOfWeek": [
+                        2,
+                        4,
+                        6
+                      ],
+                      "timeOfDeparture": "11:20:00",
+                      "flightNo": "PG0483",
+                      "destination": "Москва"
+                    },
+                    {
+                      "daysOfWeek": [
+                        1
+                      ],
+                      "timeOfDeparture": "12:25:00",
+                      "flightNo": "PG0552",
+                      "destination": "Удачный"
+                    },
+                    {
+                      "daysOfWeek": [
+                        2,
+                        6
+                      ],
+                      "timeOfDeparture": "11:40:00",
+                      "flightNo": "PG0664",
+                      "destination": "Москва"
+                    }
+                  ]
+                }
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+
+  /flights:
+    get:
+      tags:
+        - flights
+      summary: Returns flights connecting specified points
+      parameters:
+        - name: transfers
+          in: query
+          description: Acceptable number of transfers
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                origin:
+                  type: string
+                destination:
+                  type: string
+                departureDate:
+                  type: string
+                  format: date
+                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                fareConditions:
+                  type: string
+                  enum:
+                    - Economy
+                    - Comfort
+                    - Business
+            example:
+              origin: Кемерово
+              destination: Москва
+              departureDate: 2017-09-26
+              fareConditions: Economy
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Ok
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        flightNo:
+                          type: string
+                        scheduledDeparture:
+                          type: string
+                          format: date-time
+                          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                        scheduledArrival:
+                          type: string
+                          format: date-time
+                          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                        scheduledDuration:
+                          type: string
+                          format: date-time
+                          pattern: /([0-9]{2}):([0-9]{2}):([0-9]{2}) ([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                        departureAirportCode:
+                          type: string
+                        departureCity:
+                          type: string
+                        arrivalAirportName:
+                          type: string
+                        arrivalCity:
+                          type: string
+                        aircraftModel:
+                          type: string
+              example:
+                [
+                  {
+                    flightNo: PG0226,
+                    scheduledDeparture: 2016-09-26 01:15:00,
+                    scheduledArrival: 2016-09-26 05:15:00,
+                    scheduledDuration: 4:00:00,
+                    departureAirportCode: KEJ,
+                    departureCity: Kemorovo,
+                    arrivalAirportName: SVO,
+                    arrivalCity: Moscow,
+                    aircraftModel: "773",
+                  },
+                ]
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+
+  /bookings:
+    post:
+      tags:
+        - bookings
+      summary: Creates booking
+      requestBody:
+        description: Data for booking
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookRef:
+                  type: string
+                  readOnly: true
+                ticketNo:
+                  type: string
+                  readOnly: true
+                bookDate:
+                  type: string
+                  format: date
+                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                flightNo:
+                  type: string
+                fareConditions:
+                  type: string
+                  enum:
+                    - Economy
+                    - Comfort
+                    - Business
+                passengerName:
+                  type: string
+            example:
+              {
+                "passengerName": "Amina Ramazanova",
+                "contactData": { "email": "shevchenkofedor-1963@postgrespro.ru", "phone": "+70644329898" },
+                "flights": [
+                  {
+                    "flightNo": "PG0012",
+                    "flightDate": "2024-06-18T09:25:00Z"
+                  },
+                  {
+                    "flightNo": "PG0013",
+                    "flightDate": "2024-06-20T15:15:00Z"
+                  }
+                ],
+                "fareConditions": "Economy"
+              }
+
+      responses:
+        200:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Ok
+                  payload:
+                    type: object
+                    properties:
+                      bookRef:
+                        type: string
+                      totalAmount:
+                        type: number
+                      tickets:
+                        type: array
+                        items:
+                          properties:
+                            ticketNo:
+                              type: integer
+                            fareConditions:
+                              type: string
+                            amount:
+                              type: number
+                            flightId:
+                              type: string
+
+              example:
+                {
+                  "bookRef": "_654b3",
+                  "totalAmount": 26300,
+                  "tickets": [
+                    {
+                      "ticketNo": "_2909521cf7d4",
+                      "fareConditions": "Economy",
+                      "amount": 12300,
+                      "flightId": 65665
+                    },
+                    {
+                      "ticketNo": "_2418854efc14",
+                      "fareConditions": "Economy",
+                      "amount": 14000,
+                      "flightId": 65666
+                    }
+                  ]
+                }
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+
+  /checkins:
+    post:
+      tags:
+        - checkins
+      summary: Checks in for the flight
+      requestBody:
+        description: Data for check-in for the flight
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketNo:
+                  type: string
+                flightId:
+                  type: string
+            example:
+              {
+                "flightId": 65665,
+                "ticketNo": "_beeb4d910ca4"
+              }
+      responses:
+        200:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Ok
+                  payload:
+                    type: object
+                    properties:
+                      boardingNo:
+                        type: integer
+                        readOnly: true
+                      seatNo:
+                        type: string
+                        readOnly: true
+                      ticketNo:
+                        type: string
+                      flightNo:
+                        type: string
+              example:
+                {
+                  "status": 200,
+                  "message": "ok",
+                  "payload": {
+                    "boardingNo": 382,
+                    "seatNo": "4C",
+                    "ticketNo": "_beeb4d910ca4",
+                    "flightId": 65665
+                  }
+                }
+
+        400:
+          $ref: "#/components/responses/BadRequest"
+        5XX:
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  schemas:
+
+    InboundSchedule:
+      allOf:
+        - type: object
+          properties:
+            daysOfWeek:
+              type: array
+              items:
+                type: integer
+            arrivalTime:
+              type: string
+              format: date-time
+              pattern: /([0-9]{2}):([0-9]{2}):([0-9]{2})/
+            flightNo:
+              type: string
+        - type: object
+          properties:
+            arrivalTime:
+              type: string
+              format: date-time
+              pattern: /([0-9]{2}):([0-9]{2}):([0-9]{2})/
+            origin:
+              type: string
+
+    OutboundSchedule:
+      allOf:
+        - type: object
+          properties:
+            daysOfWeek:
+              type: array
+              items:
+                type: integer
+            arrivalTime:
+              type: string
+              format: date-time
+              pattern: /([0-9]{2}):([0-9]{2}):([0-9]{2})/
+            flightNo:
+              type: string
+        - type: object
+          properties:
+            departureTime:
+              type: string
+              format: date-time
+              pattern: /([0-9]{2}):([0-9]{2}):([0-9]{2})/
+            destination:
+              type: string
+
+
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "Error message"
+        payload:
+          type: string
+          example:
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
